@@ -10,6 +10,7 @@ request('http://study.ebeiwai.com/ws/studyservice/getStudyCourseOutline?courseCo
     body = JSON.parse(response.body)
     body.backData = body.backData.replace(/\s/g, '');
     let items = body.items;
+    // console.log(body.items)
     download = (item) =>{
         return new Promise((resolve, reject) => {
             fs.mkdir(__dirname + '/' + body.backData, err =>{
@@ -39,10 +40,10 @@ request('http://study.ebeiwai.com/ws/studyservice/getStudyCourseOutline?courseCo
     main = async () =>{
         for (let i = 0; i < items.length; i++) {
             items[i].nameZh = items[i].nameZh.replace(/\s/g, '');
-            if (items[i].coursElementDTOs != undefined) {
-                console.log('download ' + items[i].nameZh)
+            if (items[i].coursElementDTOs != undefined && items[i].coursElementDTOs[0] != undefined) {
+                console.log('download_' + items[i].nameZh)
                 for (let j = 0; j < items[i].coursElementDTOs.length; j++) {
-                    console.log('download' + items[i].nameZh + ' ' + items[i].coursElementDTOs[j].nameZh)
+                    console.log('download__' + items[i].nameZh + ' ' + items[i].coursElementDTOs[j].nameZh)
                     await download2(items[i].nameZh,items[i].coursElementDTOs[j])
                 }
             } else {
